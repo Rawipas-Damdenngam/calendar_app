@@ -1,13 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:calendar_app/data/dummy_checkbox.dart';
 
-class CalendarDrawer extends StatelessWidget {
+class CalendarDrawer extends StatefulWidget {
   const CalendarDrawer({super.key});
 
   @override
+  State<CalendarDrawer> createState() => _CalendarDrawerState();
+}
+
+class _CalendarDrawerState extends State<CalendarDrawer> {
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+  bool isChecked4 = false;
+  bool isChecked5 = false;
+  bool isChecked6 = false;
+  bool showMore = false;
+
+  void checkedBox1(bool? value) {
+    setState(() {
+      isChecked1 = value!;
+    });
+  }
+
+  void checkedBox2(bool? value) {
+    setState(() {
+      isChecked2 = value!;
+    });
+  }
+
+  void checkedBox3(bool? value) {
+    setState(() {
+      isChecked3 = value!;
+    });
+  }
+
+  void checkedBox4(bool? value) {
+    setState(() {
+      isChecked4 = value!;
+    });
+  }
+
+  void checkedBox5(bool? value) {
+    setState(() {
+      isChecked5 = value!;
+    });
+  }
+
+  void checkedBox6(bool? value) {
+    setState(() {
+      isChecked6 = value!;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int visibleCount = showMore ? checkboxList.length : 5;
+
     return Drawer(
+      backgroundColor: Colors.white,
       child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 50.0),
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,17 +68,22 @@ class CalendarDrawer extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, top: 9.5),
-                    child: Text('data')),
+                  padding: const EdgeInsets.only(left: 20.0, top: 10.5),
+                  child: Image.asset(
+                    'assets/images/google.jpeg',
+                    width: 100,
+                    height: 35,
+                  ),
+                ),
               ),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10.0, top: 11.5),
+                  padding: EdgeInsets.only(left: 2.0, top: 15.5),
                   child: Text(
-                    'Gmail',
+                    'Calendar',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 20,
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 96, 100, 104),
                     ),
@@ -42,11 +100,10 @@ class CalendarDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0),
             child: ListTile(
               leading: const Icon(
-                Icons.circle,
-                color: Colors.green,
+                Icons.schedule_outlined,
               ),
               title: const Text(
-                'Active',
+                'Schedule',
               ),
               onTap: () {
                 // Handle inbox tap
@@ -57,10 +114,52 @@ class CalendarDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0),
             child: ListTile(
               leading: const Icon(
-                Icons.create_outlined,
+                Icons.calendar_view_day,
               ),
               title: const Text(
-                'Add a status',
+                'Day',
+              ),
+              onTap: () {
+                // Handle inbox tap
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: ListTile(
+              leading: const Icon(
+                Icons.calendar_view_day_rounded,
+              ),
+              title: const Text(
+                '3Day',
+              ),
+              onTap: () {
+                // Handle inbox tap
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: ListTile(
+              leading: const Icon(
+                Icons.calendar_view_week_outlined,
+              ),
+              title: const Text(
+                'Week',
+              ),
+              onTap: () {
+                // Handle inbox tap
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: ListTile(
+              leading: const Icon(
+                Icons.calendar_view_month_outlined,
+              ),
+              title: const Text(
+                'Month',
               ),
               onTap: () {
                 // Handle inbox tap
@@ -68,151 +167,200 @@ class CalendarDrawer extends StatelessWidget {
             ),
           ),
           const Divider(
-            indent: 85,
             height: 15,
             thickness: 1,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 5.0),
             child: ListTile(
-              leading: const Icon(Icons.all_inbox),
-              title: const Text('All Inboxes'),
-              onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   // builder: ((ctx) => const TabScreen()),
-                // ));
-              },
+              leading: CircleAvatar(
+                child: Text(
+                  'R',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              title: Text(
+                'RAWJATUM.SUNYA@GMAIL.COM',
+                style: TextStyle(fontSize: 11),
+              ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: ListTile(
+              onTap: () {
+                setState(() {
+                  isChecked1 = !isChecked1;
+                });
+              },
+              leading: Checkbox(
+                checkColor: Colors.white,
+                activeColor: Colors.lightBlue,
+                fillColor: MaterialStateProperty.all(Colors.lightBlue),
+                value: isChecked1,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isChecked1 = value!;
+                  });
+                },
+              ),
+              title: const Text('Events'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: ListTile(
+              onTap: () {
+                setState(() {
+                  isChecked2 = !isChecked2;
+                });
+              },
+              leading: Checkbox(
+                activeColor: Colors.blue,
+                checkColor: Colors.white,
+                fillColor: MaterialStateProperty.all(Colors.blue),
+                value: isChecked2,
+                onChanged: checkedBox2,
+              ),
+              title: const Text('Tasks'),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 5.0),
+            child: ListTile(
+              leading: CircleAvatar(
+                child: Text(
+                  'E',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              title: Text(
+                'EIEI.EUEU@GMAIL.COM',
+                style: TextStyle(fontSize: 11),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: ListTile(
+              onTap: () {
+                setState(() {
+                  isChecked3 = !isChecked3;
+                });
+              },
+              leading: Checkbox(
+                checkColor: Colors.white,
+                activeColor: Colors.lightBlue,
+                fillColor: MaterialStateProperty.all(Colors.blue),
+                value: isChecked3,
+                onChanged: checkedBox3,
+              ),
+              title: const Text('Events'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: ListTile(
+              onTap: () {
+                setState(() {
+                  isChecked4 = !isChecked4;
+                });
+              },
+              leading: Checkbox(
+                checkColor: Colors.white,
+                activeColor: Colors.blue,
+                fillColor: MaterialStateProperty.all(Colors.blue),
+                value: isChecked4,
+                onChanged: checkedBox4,
+              ),
+              title: const Text('Tasks'),
+            ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15.0),
+          //   child: ListView.builder(
+          //     itemCount: visibleCount,
+          //     itemBuilder: (context, index) {
+          //       return CheckboxListTile(
+          //         title: Text(checkboxList[index].label),
+          //         value: checkboxList[index].isChecked,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             checkboxList[index].isChecked = value!;
+          //           });
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+          Padding(
+              padding: const EdgeInsets.only(left: 70.0),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showMore = !showMore;
+                  });
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        onTap: () {},
+                        title: const Text(
+                          'Show more',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
           const Divider(
             indent: 85,
-            height: 15,
+            height: 20,
             thickness: 1,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15.0),
+            padding: const EdgeInsets.only(left: 2.0),
             child: ListTile(
-              leading: const Icon(Icons.inbox),
-              title: const Text('Inbox'),
               onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: ((ctx) => const TabScreen()),
-                // ));
+                setState(() {
+                  isChecked5 = !isChecked5;
+                });
               },
-            ),
-          ),
-          const Divider(
-            indent: 85,
-            height: 15,
-            thickness: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.star_border),
-              title: const Text('Starred'),
-              onTap: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: ((ctx) => const StarredGmailScreen()),
-                //   ),
-                // );
-              },
+              leading: Checkbox(
+                checkColor: Colors.white,
+                activeColor: Colors.lightGreen,
+                fillColor: MaterialStateProperty.all(Colors.lightGreen),
+                value: isChecked5,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isChecked5 = value!;
+                  });
+                },
+              ),
+              title: const Text('Birthdays'),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15.0),
+            padding: const EdgeInsets.only(left: 2.0),
             child: ListTile(
-              leading: const Icon(Icons.watch_later_outlined),
-              title: const Text('Snoozed'),
               onTap: () {
-                // Handle inbox tap
+                setState(() {
+                  isChecked6 = !isChecked6;
+                });
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.label_important_outline),
-              title: const Text('Important'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.send_outlined),
-              title: const Text('Sent'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.schedule_send_outlined),
-              title: const Text('Scheduled'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.insert_drive_file_outlined),
-              title: const Text('Drafts'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.mail_outline),
-              title: const Text('All mail'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.info_outlined),
-              title: const Text('Spam'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.delete_outline),
-              title: const Text('Trash'),
-              onTap: () {
-                // Handle inbox tap
-              },
-            ),
-          ),
-          const Divider(
-            indent: 85,
-            height: 15,
-            thickness: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ListTile(
-              leading: const Icon(Icons.add),
-              title: const Text('Create new'),
-              onTap: () {
-                // Handle inbox tap
-              },
+              leading: Checkbox(
+                checkColor: Colors.white,
+                activeColor: Colors.green,
+                fillColor: MaterialStateProperty.all(Colors.green),
+                value: isChecked6,
+                onChanged: checkedBox6,
+              ),
+              title: const Text('Holidays'),
             ),
           ),
           const Divider(

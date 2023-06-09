@@ -1,9 +1,18 @@
 import 'package:calendar_app/widgets/caldendar_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_app/screens/search_screen.dart';
+import 'package:calendar_app/screens/profile_screen.dart';
+import 'package:calendar_app/providers/account_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +39,12 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.search),
             color: Colors.black,
             onPressed: () {
-              // Handle search tap
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => const SearchScreen()),
+              );
             },
           ),
+          const SizedBox(width: 20),
           IconButton(
             icon: const Icon(Icons.calendar_today_rounded),
             color: Colors.black,
@@ -40,6 +52,25 @@ class HomeScreen extends StatelessWidget {
               // Handle more tap
             },
           ),
+          const SizedBox(width: 20),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: ((context) => const ProfileScreen()),
+              );
+            },
+            child: CircleAvatar(
+              child: Text(
+                ref.watch(accountsProvider).first.name[0],
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 35),
         ],
       ),
     );
