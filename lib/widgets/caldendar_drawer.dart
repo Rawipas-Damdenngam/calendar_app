@@ -55,7 +55,7 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    int visibleCount = showMore ? checkboxList.length : 5;
+    // int visibleCount = showMore ? checkboxList.length : 5;
 
     return Drawer(
       backgroundColor: Colors.white,
