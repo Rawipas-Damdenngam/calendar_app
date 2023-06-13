@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:calendar_app/data/dummy_checkbox.dart';
 
 class CalendarDrawer extends StatefulWidget {
   const CalendarDrawer({super.key});

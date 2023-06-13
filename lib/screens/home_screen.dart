@@ -4,10 +4,12 @@ import 'package:calendar_app/screens/search_screen.dart';
 import 'package:calendar_app/screens/profile_screen.dart';
 import 'package:calendar_app/providers/account_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:googleapis/artifactregistry/v1.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:calendar_app/widgets/calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:calendar_app/widgets/calendar_main.dart';
+import 'package:calendar_app/widgets/calendar_month.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -140,7 +142,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           flexibleSpace: isExpanded ? CalendarWidget() : null,
         ),
       ),
-      body: CalendarMain(),
+      body: CalendarMonth(),
     );
   }
 }
