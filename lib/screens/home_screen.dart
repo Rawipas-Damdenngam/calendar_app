@@ -1,4 +1,3 @@
-import 'package:calendar_app/providers/calendar_provider.dart';
 import 'package:calendar_app/widgets/caldendar_drawer.dart';
 import 'package:calendar_app/widgets/event.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +146,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               flexibleSpace: isExpanded ? const CalendarWidget() : null,
             ),
           ),
-          body: CalendarMonth(),
+          body: const CalendarMonth(),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.of(context).push(

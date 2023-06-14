@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:calendar_app/providers/calendar_provider.dart';
 
 class CalendarMonth extends ConsumerStatefulWidget {
   const CalendarMonth({Key? key}) : super(key: key);

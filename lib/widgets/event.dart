@@ -1,3 +1,4 @@
+import 'package:calendar_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,11 @@ class _EventState extends State<Event> {
               alignment: Alignment.centerRight,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => const HomeScreen(),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20.0),
@@ -72,6 +77,7 @@ class _EventState extends State<Event> {
                       ),
                       Expanded(
                         child: TextField(
+                          autocorrect: false,
                           textCapitalization: TextCapitalization.sentences,
                           maxLines: null,
                           keyboardType: TextInputType.text,
@@ -298,7 +304,7 @@ class _EventState extends State<Event> {
                       Icons.notifications_none_rounded,
                       color: Colors.grey[700],
                     ),
-                    title: Column(
+                    title: const Column(
                       children: [
                         SizedBox(
                           height: 15,
@@ -339,6 +345,62 @@ class _EventState extends State<Event> {
                     ),
                     title: Text(
                       'Default colors',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.density_medium_rounded,
+                      color: Colors.grey[700],
+                    ),
+                    title: Text(
+                      'Add description',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.attach_file_outlined,
+                      color: Colors.grey[700],
+                    ),
+                    title: Text(
+                      'Add attachment',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.lock_outline,
+                      color: Colors.grey[700],
+                    ),
+                    title: Text(
+                      ' Calendar default',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.work_outline,
+                      color: Colors.grey[700],
+                    ),
+                    title: Text(
+                      'Busy',
                       style: TextStyle(fontSize: 18, color: Colors.grey[600]),
                     ),
                   ),
