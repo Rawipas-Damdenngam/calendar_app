@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:calendar_app/providers/calendar_provider.dart';
 
-class CalendarMonth extends StatefulWidget {
+class CalendarMonth extends ConsumerStatefulWidget {
   const CalendarMonth({Key? key}) : super(key: key);
 
   @override
-  State<CalendarMonth> createState() => _CalendarMonthState();
+  ConsumerState<CalendarMonth> createState() => _CalendarMonthState();
 }
 
-class _CalendarMonthState extends State<CalendarMonth> {
+class _CalendarMonthState extends ConsumerState<CalendarMonth> {
   @override
   Widget build(BuildContext context) {
     const int startMonth = 1;
@@ -50,8 +52,8 @@ class _CalendarMonthState extends State<CalendarMonth> {
                     left: 50,
                     child: Text(
                       DateFormat('MMMM').format(firstDayOfMonth),
-                      style:
-                          const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w500),
                     ),
                   )
                 ],

@@ -10,12 +10,13 @@ class CalendarMain extends StatelessWidget {
     const startMonth = 1;
     const endMonth = 12;
     const startYear = 2000;
+    final currentYear = DateTime.now().year;
     const endYear = 2030;
 
     return ListView.builder(
       itemBuilder: (context, index) {
-        final year = endYear - startYear;
-        final monthIndex = year * 12 ~/ 360;
+        const  year = endYear - startYear;
+        const monthIndex = year * 12 ~/ 360;
         final startDay = (index % daysPerWeek) + 1;
         final endWeek = startDay + daysPerWeek;
 

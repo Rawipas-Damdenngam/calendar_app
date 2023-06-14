@@ -1,13 +1,17 @@
-import 'package:calendar_app/data/dummy_account.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-// class CalendarsNotifier extends StateNotifier<List<Calendar>> {
-//   CalendarsNotifier() : super(dummyAccounts);
+class Calendars {
+  DateTime date = DateTime.now();
+  Calendars({required this.date});
+}
 
+class CalendarsNotifier extends StateNotifier<Calendars> {
+  CalendarsNotifier() : super(Calendars(date: DateTime.now()));
 
-    
-// }
+  
+}
 
-// final accountsProvider = StateNotifierProvider<CalendarsNotifier, List<Calendar>>(
-//   (ref) => CalendarsNotifier(),
-// );
+final calendarsProvider = StateNotifierProvider<CalendarsNotifier, Calendars>(
+  (ref) => CalendarsNotifier(),
+);

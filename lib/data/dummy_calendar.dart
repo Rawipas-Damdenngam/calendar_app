@@ -1,9 +1,7 @@
-import 'dart:html';
 
 import 'package:calendar_app/providers/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:googleapis/calendar/v3.dart' as google_calendar;
 
 class CalendarMain {
   String day;
