@@ -1,21 +1,28 @@
+import 'package:calendar_app/providers/calendar_provider.dart';
 import 'package:calendar_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class Event extends StatefulWidget {
+class Event extends ConsumerStatefulWidget {
   const Event({Key? key}) : super(key: key);
 
   @override
-  State<Event> createState() => _EventState();
+  ConsumerState<Event> createState() => _EventState();
 }
 
-class _EventState extends State<Event> {
-  TimeOfDay selectedTime = TimeOfDay.now();
+class _EventState extends ConsumerState<Event> {
+  DateTime selectedTime = DateTime.now();
+  DateTime selectedTime2 = DateTime.now().add(const Duration(hours: 1));
+  final DateFormat dateFormat = DateFormat('EEEE, d MMM');
+  final DateFormat timeFormat = DateFormat('HH:mm');
+
   bool isSwitched = false;
+  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate2 = DateTime.now();
 
-  Future<DateTime?> showCupertinoDatePicker(BuildContext context) async {
-    DateTime? selectedDate;
-
+  Future<DateTime?> pickDate(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
@@ -24,7 +31,11 @@ class _EventState extends State<Event> {
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: (DateTime newDate) {
-              selectedDate = newDate;
+              setState(
+                () {
+                  selectedDate = newDate;
+                },
+              );
             },
           ),
         );
@@ -32,6 +43,105 @@ class _EventState extends State<Event> {
     );
 
     return selectedDate;
+  }
+
+  Future<DateTime?> pickDate2(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (DateTime newDate) {
+              setState(
+                () {
+                  selectedDate2 = newDate;
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+
+    return selectedDate2;
+  }
+
+  Future<void> pickTime() async {
+    final DateTime? pickedTime = await showModalBottomSheet<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.hm,
+            initialTimerDuration: Duration(
+              hours: selectedTime.hour,
+              minutes: selectedTime.minute,
+            ),
+            onTimerDurationChanged: (Duration duration) {
+              setState(
+                () {
+                  selectedTime = DateTime(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day,
+                    duration.inHours,
+                    duration.inMinutes % 60,
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        selectedTime = pickedTime;
+      });
+    }
+  }
+
+  Future<void> pickTime2() async {
+    final DateTime? pickedTime2 = await showModalBottomSheet<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.hm,
+            initialTimerDuration: Duration(
+              hours: selectedTime.hour + 1,
+              minutes: selectedTime.minute,
+            ),
+            onTimerDurationChanged: (Duration duration) {
+              setState(
+                () {
+                  selectedTime2 = DateTime(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day,
+                    duration.inHours,
+                    duration.inMinutes % 60,
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+
+    if (pickedTime2 != null) {
+      setState(
+        () {
+          selectedTime2 = pickedTime2;
+        },
+      );
+    }
   }
 
   @override
@@ -167,27 +277,28 @@ class _EventState extends State<Event> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate =
-                                await showCupertinoDatePicker(context);
+                            DateTime? pickedDate = await pickDate(context);
 
                             if (pickedDate != null) {
                               // Do something with the selected date
                             }
                           },
                           child: ListTile(
-                            title: const Text(
-                              'Wednesday, 14 Jun',
-                              style: TextStyle(fontSize: 18),
+                            title: Text(
+                              dateFormat.format(selectedDate),
+                              style: const TextStyle(fontSize: 18),
                             ),
                             trailing: Visibility(
                               visible: !isSwitched,
                               child: GestureDetector(
-                                onTap: () {},
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 15.0),
+                                onTap: () async {
+                                  await pickTime();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15.0),
                                   child: Text(
-                                    '12:00',
-                                    style: TextStyle(fontSize: 18),
+                                    timeFormat.format(selectedTime),
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
                               ),
@@ -205,27 +316,28 @@ class _EventState extends State<Event> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate =
-                                await showCupertinoDatePicker(context);
+                            DateTime? pickedDate2 = await pickDate2(context);
 
-                            if (pickedDate != null) {
+                            if (pickedDate2 != null) {
                               // Do something with the selected date
                             }
                           },
                           child: ListTile(
-                            title: const Text(
-                              'Wednesday, 14 Jun',
-                              style: TextStyle(fontSize: 18),
+                            title: Text(
+                              dateFormat.format(selectedDate2),
+                              style: const TextStyle(fontSize: 18),
                             ),
                             trailing: Visibility(
                               visible: !isSwitched,
                               child: GestureDetector(
-                                onTap: () {},
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 15.0),
+                                onTap: () async {
+                                  await pickTime2();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15.0),
                                   child: Text(
-                                    '13:00',
-                                    style: TextStyle(fontSize: 18),
+                                    timeFormat.format(selectedTime2),
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
                               ),

@@ -1,4 +1,7 @@
+import 'package:calendar_app/screens/home_screen.dart';
+import 'package:calendar_app/widgets/calendar_month.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_app/screens/day_screen.dart';
 
 class CalendarDrawer extends StatefulWidget {
   const CalendarDrawer({super.key});
@@ -105,7 +108,8 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 'Schedule',
               ),
               onTap: () {
-                // Handle inbox tap
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => const HomeScreen()));
               },
             ),
           ),
@@ -119,7 +123,8 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 'Day',
               ),
               onTap: () {
-                // Handle inbox tap
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (ctx) => const Day()));
               },
             ),
           ),

@@ -22,6 +22,9 @@ class SearchScreen extends StatelessWidget {
           ),
         ),
         title: const TextField(
+          style: TextStyle(fontSize: 22),
+          textCapitalization: TextCapitalization.sentences,
+          keyboardType: TextInputType.text,
           autofocus: true,
           decoration: InputDecoration(
             hintText: 'Search',

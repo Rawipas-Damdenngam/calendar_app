@@ -1,16 +1,74 @@
+import 'package:calendar_app/providers/calendar_provider.dart';
 import 'package:calendar_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class Task extends StatefulWidget {
+class Task extends ConsumerStatefulWidget {
   const Task({super.key});
 
   @override
-  State<Task> createState() => _TaskState();
+  ConsumerState<Task> createState() => _TaskState();
 }
 
-class _TaskState extends State<Task> {
+class _TaskState extends ConsumerState<Task> {
+  DateTime selectedDate = DateTime.now();
+  DateTime selectedTime = DateTime.now();
+  final DateFormat timeFormat = DateFormat('HH:mm');
+
+  final DateFormat dateFormat = DateFormat('EEEE, d MMM');
   bool isSwitched = true;
+
+  Future<DateTime?> pickDate(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (DateTime newDate) {
+              setState(
+                () {
+                  selectedDate = newDate;
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+    return selectedDate;
+  }
+
+  Future<void> pickTime() async {
+    final DateTime? pickedTime = await showModalBottomSheet<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.time,
+            initialDateTime: selectedTime,
+            onDateTimeChanged: (DateTime newTime) {
+              setState(
+                () {
+                  selectedTime = newTime;
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        selectedTime = pickedTime;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +260,7 @@ class _TaskState extends State<Task> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -212,21 +270,29 @@ class _TaskState extends State<Task> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            DateTime? pickedDate = await pickDate(context);
+
+                            if (pickedDate != null) {
+                              // Do something with the selected date
+                            }
+                          },
                           child: ListTile(
-                            title: const Text(
-                              'Wednesday, 14 Jun',
-                              style: TextStyle(fontSize: 18),
+                            title: Text(
+                              dateFormat.format(selectedDate.toLocal()),
+                              style: const TextStyle(fontSize: 18),
                             ),
                             trailing: Visibility(
                               visible: !isSwitched,
                               child: GestureDetector(
-                                onTap: () {},
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 15.0),
+                                onTap: () async {
+                                  await pickTime();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15.0),
                                   child: Text(
-                                    '12:00',
-                                    style: TextStyle(fontSize: 18),
+                                    timeFormat.format(selectedTime),
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
                               ),
@@ -238,7 +304,7 @@ class _TaskState extends State<Task> {
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Icon(Icons.replay_outlined, color: Colors.grey[700]),
@@ -248,8 +314,8 @@ class _TaskState extends State<Task> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {},
-                          child: ListTile(
-                            title: const Text(
+                          child: const ListTile(
+                            title: Text(
                               'Does not repeat',
                               style: TextStyle(fontSize: 18),
                             ),
