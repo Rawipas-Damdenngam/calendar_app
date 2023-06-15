@@ -3,14 +3,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Event extends StatefulWidget {
-  const Event({super.key});
+  const Event({Key? key}) : super(key: key);
 
   @override
   State<Event> createState() => _EventState();
 }
 
 class _EventState extends State<Event> {
+  TimeOfDay selectedTime = TimeOfDay.now();
   bool isSwitched = false;
+
+  Future<DateTime?> showCupertinoDatePicker(BuildContext context) async {
+    DateTime? selectedDate;
+
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return SizedBox(
+          height: 300.0,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (DateTime newDate) {
+              selectedDate = newDate;
+            },
+          ),
+        );
+      },
+    );
+
+    return selectedDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,19 +166,29 @@ class _EventState extends State<Event> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            DateTime? pickedDate =
+                                await showCupertinoDatePicker(context);
+
+                            if (pickedDate != null) {
+                              // Do something with the selected date
+                            }
+                          },
                           child: ListTile(
                             title: const Text(
                               'Wednesday, 14 Jun',
                               style: TextStyle(fontSize: 18),
                             ),
-                            trailing: GestureDetector(
-                              onTap: () {},
-                              child: const Padding(
-                                padding: EdgeInsets.only(right: 15.0),
-                                child: Text(
-                                  '12:00',
-                                  style: TextStyle(fontSize: 18),
+                            trailing: Visibility(
+                              visible: !isSwitched,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const Padding(
+                                  padding: EdgeInsets.only(right: 15.0),
+                                  child: Text(
+                                    '12:00',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
                                 ),
                               ),
                             ),
@@ -172,19 +204,29 @@ class _EventState extends State<Event> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            DateTime? pickedDate =
+                                await showCupertinoDatePicker(context);
+
+                            if (pickedDate != null) {
+                              // Do something with the selected date
+                            }
+                          },
                           child: ListTile(
                             title: const Text(
                               'Wednesday, 14 Jun',
                               style: TextStyle(fontSize: 18),
                             ),
-                            trailing: GestureDetector(
-                              onTap: () {},
-                              child: const Padding(
-                                padding: EdgeInsets.only(right: 15.0),
-                                child: Text(
-                                  '13:00',
-                                  style: TextStyle(fontSize: 18),
+                            trailing: Visibility(
+                              visible: !isSwitched,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const Padding(
+                                  padding: EdgeInsets.only(right: 15.0),
+                                  child: Text(
+                                    '13:00',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
                                 ),
                               ),
                             ),

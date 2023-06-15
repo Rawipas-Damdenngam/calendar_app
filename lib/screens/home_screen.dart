@@ -1,5 +1,6 @@
 import 'package:calendar_app/widgets/caldendar_drawer.dart';
 import 'package:calendar_app/widgets/event.dart';
+import 'package:calendar_app/widgets/task.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_app/screens/search_screen.dart';
 import 'package:calendar_app/screens/profile_screen.dart';
@@ -267,7 +268,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 elevation: 4,
                                                 shape: const CircleBorder(),
                                                 child: GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        context: context,
+                                                        builder: (ctx) =>
+                                                            const Task());
+                                                  },
                                                   child: const CircleAvatar(
                                                     backgroundColor:
                                                         Colors.white,
