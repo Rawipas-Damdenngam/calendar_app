@@ -7,10 +7,8 @@ class CalendarMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const daysPerWeek = 7;
-    const startMonth = 1;
     const endMonth = 12;
     const startYear = 2000;
-    final currentYear = DateTime.now().year;
     const endYear = 2030;
 
     return ListView.builder(

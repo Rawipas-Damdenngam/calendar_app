@@ -1,4 +1,4 @@
-import 'package:calendar_app/widgets/day.dart';
+import 'package:calendar_app/widgets/Three_day.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +10,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calendar_app/providers/account_provider.dart';
 import 'package:calendar_app/widgets/calendar.dart';
 
-class DayScreen extends ConsumerStatefulWidget {
-  const DayScreen({super.key});
+class ThreeDayScreen extends ConsumerStatefulWidget {
+  const ThreeDayScreen({super.key});
 
   @override
-  ConsumerState<DayScreen> createState() => _DayScreenState();
+  ConsumerState<ThreeDayScreen> createState() => _ThreeDayScreenState();
 }
 
-class _DayScreenState extends ConsumerState<DayScreen> {
+class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
   CalendarFormat calendarFormat = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
+  DateTime tomorrow = DateTime.now().add(const Duration(days: 1));
+  DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+  DateTime dayAfterTomorrow = DateTime.now().add(const Duration(days: 2));
   DateFormat dateFormat = DateFormat('dd');
   DateFormat dateFormat2 = DateFormat('EEE');
 
@@ -152,7 +155,7 @@ class _DayScreenState extends ConsumerState<DayScreen> {
           body: Column(
             children: [
               AppBar(
-                toolbarHeight: 64,
+                toolbarHeight: 68,
                 centerTitle: false,
                 leading: null,
                 leadingWidth: 0,
@@ -160,52 +163,93 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                 title: Stack(
                   children: [
                     SizedBox(
-                      height: 64,
+                      height: 68,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 6),
-                          CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 18,
-                            child: Text(
-                              dateFormat.format(selectedDay),
-                              style: const TextStyle(
+                          const Expanded(child: SizedBox(width: 6)),
+                          const Expanded(child: SizedBox(width: 30)),
+                          const Expanded(child: SizedBox(width: 6)),
+                          Align(
+                            alignment: Alignment.center,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.blue,
+                              radius: 18,
+                              child: Text(
+                                dateFormat.format(selectedDay),
+                                style: const TextStyle(
                                   color: Colors.white,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 30),
-                          Container(
-                            width: 1,
-                            height: 70,
-                            color: Colors.grey[400],
-                          ),
+                          const Expanded(child: SizedBox(width: 30)),
                           const SizedBox(width: 20),
-                          Text(
-                            'Nothing Planned',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[500]),
+                          const Expanded(child: SizedBox(width: 6)),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              dateFormat.format(tomorrow),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
+                          const Expanded(child: SizedBox(width: 30)),
+                          const Expanded(child: SizedBox(width: 20)),
+                          const Expanded(child: SizedBox(width: 6)),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              dateFormat.format(dayAfterTomorrow),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: SizedBox(width: 30)),
                         ],
                       ),
                     ),
                     Positioned(
                       top: 0,
-                      left: 15,
+                      left: 105,
                       child: Text(
                         dateFormat2.format(selectedDay).toUpperCase(),
                         style: const TextStyle(
-                            fontSize: 12, color: Colors.blueAccent),
+                            fontSize: 13, color: Colors.blueAccent),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 221,
+                      child: Text(
+                        dateFormat2.format(tomorrow).toUpperCase(),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.grey),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 341,
+                      child: Text(
+                        dateFormat2.format(dayAfterTomorrow).toUpperCase(),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.grey),
                       ),
                     ),
                   ],
                 ),
               ),
               const Expanded(
-                child: DayWidget(),
+                child: ThreeDayWidget(),
               )
             ],
           ),

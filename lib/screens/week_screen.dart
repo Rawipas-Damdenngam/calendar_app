@@ -1,4 +1,4 @@
-import 'package:calendar_app/widgets/day.dart';
+import 'package:calendar_app/widgets/Three_day.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
@@ -10,29 +10,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calendar_app/providers/account_provider.dart';
 import 'package:calendar_app/widgets/calendar.dart';
 
-class DayScreen extends ConsumerStatefulWidget {
-  const DayScreen({super.key});
+class WeekDayScreen extends ConsumerStatefulWidget {
+  const WeekDayScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<DayScreen> createState() => _DayScreenState();
+  ConsumerState<WeekDayScreen> createState() => _WeekDayScreenState();
 }
 
-class _DayScreenState extends ConsumerState<DayScreen> {
+class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
   CalendarFormat calendarFormat = CalendarFormat.month;
-  DateTime selectedDay = DateTime.now();
+  DateTime todays =
+      DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+
   DateFormat dateFormat = DateFormat('dd');
-  DateFormat dateFormat2 = DateFormat('EEE');
+  DateFormat dateFormat2 = DateFormat('E');
 
   double appBarHeight = kToolbarHeight;
   bool isExpanded = false;
 
   void _increaseAppbarHeight() {
-    setState(
-      () {
-        isExpanded = !isExpanded;
-        appBarHeight = isExpanded ? 400 : kToolbarHeight;
-      },
-    );
+    setState(() {
+      isExpanded = !isExpanded;
+      appBarHeight = isExpanded ? 400 : kToolbarHeight;
+    });
   }
 
   @override
@@ -83,7 +83,7 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
-                        DateFormat('MMMM').format(selectedDay),
+                        DateFormat('MMMM').format(todays),
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -107,7 +107,8 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (ctx) => const SearchScreen()),
+                          builder: (ctx) => const SearchScreen(),
+                        ),
                       );
                     },
                   ),
@@ -152,61 +153,81 @@ class _DayScreenState extends ConsumerState<DayScreen> {
           body: Column(
             children: [
               AppBar(
-                toolbarHeight: 64,
+                toolbarHeight: 68,
                 centerTitle: false,
                 leading: null,
                 leadingWidth: 0,
                 backgroundColor: const Color.fromARGB(255, 250, 250, 250),
-                title: Stack(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 64,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(width: 6),
-                          CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 18,
-                            child: Text(
-                              dateFormat.format(selectedDay),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600),
+                    const SizedBox(width: 6),
+                    // CircleAvatar(
+                    //   backgroundColor: Colors.blue,
+                    //   radius: 18,
+                    //   child: Text(
+                    //     dateFormat.format(todays),
+                    //     style: const TextStyle(
+                    //       color: Colors.white,
+                    //       fontWeight: FontWeight.w600,
+                    //       fontSize: 20,
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(width: 30),
+                    // Text(
+                    //   dateFormat2.format(todays),
+                    //   style: const TextStyle(
+                    //     fontSize: 13,
+                    //     color: Colors.blueAccent,
+                    //   ),
+                    // ),
+                    const SizedBox(width: 20),
+                    for (int i = 0; i < 7; i++)
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              dateFormat.format(
+                                todays.add(
+                                  Duration(
+                                    days: (i - 1),
+                                  ),
+                                ),
+                              ),
+                              style: TextStyle(
+                                color: todays.weekday == (i + 3) % 7
+                                    ? Colors.blue
+                                    : Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 30),
-                          Container(
-                            width: 1,
-                            height: 70,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(width: 20),
-                          Text(
-                            'Nothing Planned',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[500]),
-                          ),
-                        ],
+                           const SizedBox(height: 4),
+                            Text(
+                              DateFormat.E().format(
+                                todays.add(
+                                  Duration(
+                                    days: (i - 1),
+                                  ),
+                                ),
+                              )[0],
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: todays.weekday == (i + 3) % 7
+                                    ? Colors.blueAccent
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 15,
-                      child: Text(
-                        dateFormat2.format(selectedDay).toUpperCase(),
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.blueAccent),
-                      ),
-                    ),
                   ],
                 ),
               ),
               const Expanded(
-                child: DayWidget(),
-              )
+                child: ThreeDayWidget(),
+              ),
             ],
           ),
           floatingActionButton: FloatingActionButton(

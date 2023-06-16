@@ -1,4 +1,3 @@
-import 'package:calendar_app/providers/calendar_provider.dart';
 import 'package:calendar_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

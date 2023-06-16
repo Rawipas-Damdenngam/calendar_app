@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DayWidget extends StatefulWidget {
-  const DayWidget({super.key});
+class ThreeDayWidget extends StatefulWidget {
+  const ThreeDayWidget({super.key});
 
   @override
-  State<DayWidget> createState() => _DayWidgetState();
+  State<ThreeDayWidget> createState() => _ThreeDayWidgetState();
 }
 
-class _DayWidgetState extends State<DayWidget> {
+class _ThreeDayWidgetState extends State<ThreeDayWidget> {
   DateTime time = DateTime.now();
 
   @override
@@ -27,8 +27,9 @@ class _DayWidgetState extends State<DayWidget> {
                     GestureDetector(
                       onTap: () {},
                       child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('$hourString:00')),
+                        alignment: Alignment.centerLeft,
+                        child: Text('$hourString:00'),
+                      ),
                     ),
                     Expanded(
                       child: Divider(
@@ -44,7 +45,25 @@ class _DayWidgetState extends State<DayWidget> {
           ),
           Positioned(
             top: 0,
-            left: 88,
+            left: 82,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 189,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 310,
             child: Container(
               width: 1,
               height: 900,

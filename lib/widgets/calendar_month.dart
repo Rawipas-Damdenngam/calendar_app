@@ -21,7 +21,6 @@ class _CalendarMonthState extends ConsumerState<CalendarMonth> {
         itemBuilder: (context, index) {
           final int month = startMonth + index;
           final DateTime firstDayOfMonth = DateTime(year, month, 1);
-          final int startWeekday = firstDayOfMonth.weekday;
           final int daysInMonth = DateTime(year, month + 1, 0).day;
           final List<String> weekChunks = [];
           int currentDay = 1;

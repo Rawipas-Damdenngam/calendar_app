@@ -1,5 +1,6 @@
+import 'package:calendar_app/screens/Three_day_screen.dart';
 import 'package:calendar_app/screens/home_screen.dart';
-import 'package:calendar_app/widgets/calendar_month.dart';
+import 'package:calendar_app/screens/week_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_app/screens/day_screen.dart';
 
@@ -123,8 +124,8 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 'Day',
               ),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => const Day()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => const DayScreen()));
               },
             ),
           ),
@@ -138,7 +139,11 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 '3Day',
               ),
               onTap: () {
-                // Handle inbox tap
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const ThreeDayScreen(),
+                  ),
+                );
               },
             ),
           ),
@@ -152,7 +157,11 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 'Week',
               ),
               onTap: () {
-                // Handle inbox tap
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const WeekDayScreen(),
+                  ),
+                );
               },
             ),
           ),
