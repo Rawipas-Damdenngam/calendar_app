@@ -270,11 +270,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        context: context,
-                                                        builder: (ctx) =>
-                                                            const Task());
+                                                      isScrollControlled: true,
+                                                      context: context,
+                                                      builder: (ctx) =>
+                                                          const Task(
+                                                        enteredText: '',
+                                                      ),
+                                                    );
                                                   },
                                                   child: const CircleAvatar(
                                                     backgroundColor:

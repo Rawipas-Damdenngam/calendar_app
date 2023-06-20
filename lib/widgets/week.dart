@@ -45,7 +45,7 @@ class _WeekDayWidgetState extends State<WeekDayWidget> {
           ),
           Positioned(
             top: 0,
-            left: 82,
+            left: 83,
             child: Container(
               width: 1,
               height: 900,
@@ -54,7 +54,7 @@ class _WeekDayWidgetState extends State<WeekDayWidget> {
           ),
           Positioned(
             top: 0,
-            left: 189,
+            left: 127,
             child: Container(
               width: 1,
               height: 900,
@@ -63,7 +63,43 @@ class _WeekDayWidgetState extends State<WeekDayWidget> {
           ),
           Positioned(
             top: 0,
-            left: 310,
+            left: 172,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 218,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 265,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 315,
+            child: Container(
+              width: 1,
+              height: 900,
+              color: Colors.grey[400],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 365,
             child: Container(
               width: 1,
               height: 900,

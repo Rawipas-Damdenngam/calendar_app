@@ -11,7 +11,10 @@ import 'package:calendar_app/providers/account_provider.dart';
 import 'package:calendar_app/widgets/calendar.dart';
 
 class DayScreen extends ConsumerStatefulWidget {
-  const DayScreen({super.key});
+  const DayScreen(
+      {required this.enteredText, required this.selectedTime2, super.key});
+  final String enteredText;
+  final DateTime? selectedTime2;
 
   @override
   ConsumerState<DayScreen> createState() => _DayScreenState();
@@ -22,6 +25,7 @@ class _DayScreenState extends ConsumerState<DayScreen> {
   DateTime selectedDay = DateTime.now();
   DateFormat dateFormat = DateFormat('dd');
   DateFormat dateFormat2 = DateFormat('EEE');
+  String? enteredText;
 
   double appBarHeight = kToolbarHeight;
   bool isExpanded = false;
@@ -184,17 +188,36 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                             color: Colors.grey[400],
                           ),
                           const SizedBox(width: 20),
-                          Text(
-                            'Nothing Planned',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[500]),
+                          Expanded(
+                            child: Visibility(
+                              visible: widget.enteredText.isNotEmpty,
+                              child: Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[600],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  widget.enteredText.isNotEmpty
+                                      ? widget.enteredText
+                                      : 'Nothing Planned',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Positioned(
                       top: 0,
-                      left: 15,
+                      left: 11,
                       child: Text(
                         dateFormat2.format(selectedDay).toUpperCase(),
                         style: const TextStyle(
@@ -204,8 +227,11 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                   ],
                 ),
               ),
-              const Expanded(
-                child: DayWidget(),
+              Expanded(
+                child: DayWidget(
+                  enteredText: widget.enteredText,
+                  selectedTime2: widget.selectedTime2!,
+                ),
               )
             ],
           ),

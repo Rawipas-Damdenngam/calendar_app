@@ -113,7 +113,9 @@ class FloatingButton extends StatelessWidget {
                                       showModalBottomSheet(
                                           isScrollControlled: true,
                                           context: context,
-                                          builder: (ctx) => const Task());
+                                          builder: (ctx) => const Task(
+                                                enteredText: '',
+                                              ));
                                     },
                                     child: const CircleAvatar(
                                       backgroundColor: Colors.white,

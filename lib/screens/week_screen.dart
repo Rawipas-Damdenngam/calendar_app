@@ -1,4 +1,4 @@
-import 'package:calendar_app/widgets/Three_day.dart';
+import 'package:calendar_app/widgets/week.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
@@ -196,14 +196,14 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                                 ),
                               ),
                               style: TextStyle(
-                                color: todays.weekday == (i + 3) % 7
+                                color: todays.weekday == (i - 1) % 7
                                     ? Colors.blue
                                     : Colors.black,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
                               ),
                             ),
-                           const SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               DateFormat.E().format(
                                 todays.add(
@@ -214,7 +214,7 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                               )[0],
                               style: TextStyle(
                                 fontSize: 13,
-                                color: todays.weekday == (i + 3) % 7
+                                color: todays.weekday == (i - 1) % 7
                                     ? Colors.blueAccent
                                     : Colors.grey,
                               ),
@@ -226,7 +226,7 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                 ),
               ),
               const Expanded(
-                child: ThreeDayWidget(),
+                child: WeekDayWidget(),
               ),
             ],
           ),

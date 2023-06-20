@@ -1,4 +1,5 @@
-import 'package:calendar_app/screens/Three_day_screen.dart';
+import 'package:calendar_app/screens/month_screen.dart';
+import 'package:calendar_app/screens/three_day_screen.dart';
 import 'package:calendar_app/screens/home_screen.dart';
 import 'package:calendar_app/screens/week_screen.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
   @override
   Widget build(BuildContext context) {
     // int visibleCount = showMore ? checkboxList.length : 5;
+    DateTime selectedTime2 = DateTime.now();
 
     return Drawer(
       backgroundColor: Colors.white,
@@ -125,7 +127,13 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
               ),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => const DayScreen()));
+                  MaterialPageRoute(
+                    builder: (ctx) => DayScreen(
+                      enteredText: '',
+                      selectedTime2: selectedTime2,
+                    ),
+                  ),
+                );
               },
             ),
           ),
@@ -175,7 +183,11 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 'Month',
               ),
               onTap: () {
-                // Handle inbox tap
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const MonthScreen(),
+                  ),
+                );
               },
             ),
           ),

@@ -1,11 +1,14 @@
-import 'package:calendar_app/screens/home_screen.dart';
+import 'package:calendar_app/screens/day_screen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class Task extends ConsumerStatefulWidget {
-  const Task({super.key});
+  final String enteredText;
+
+  const Task({super.key, required this.enteredText});
 
   @override
   ConsumerState<Task> createState() => _TaskState();
@@ -18,6 +21,7 @@ class _TaskState extends ConsumerState<Task> {
 
   final DateFormat dateFormat = DateFormat('EEEE, d MMM');
   bool isSwitched = true;
+  TextEditingController textFieldController = TextEditingController();
 
   Future<DateTime?> pickDate(BuildContext context) async {
     await showModalBottomSheet(
@@ -69,6 +73,12 @@ class _TaskState extends ConsumerState<Task> {
     }
   }
 
+  void saveTask() {
+    final String enteredText = textFieldController.text;
+
+    Navigator.of(context).pop(enteredText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -107,7 +117,9 @@ class _TaskState extends ConsumerState<Task> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (ctx) => const HomeScreen(),
+                        builder: (ctx) => DayScreen(
+                            enteredText: textFieldController.text,
+                            selectedTime2: selectedTime),
                       ),
                     );
                   },
@@ -138,6 +150,8 @@ class _TaskState extends ConsumerState<Task> {
                       ),
                       Expanded(
                         child: TextField(
+                          //maxLength: 20,
+                          controller: textFieldController,
                           autocorrect: false,
                           textCapitalization: TextCapitalization.sentences,
                           maxLines: null,
