@@ -1,5 +1,5 @@
 import 'package:calendar_app/screens/day_screen.dart';
-
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,12 +75,14 @@ class _TaskState extends ConsumerState<Task> {
 
   void saveTask() {
     final String enteredText = textFieldController.text;
+    ref.watch(taskProvider.notifier).addTask(enteredText, selectedTime);
 
     Navigator.of(context).pop(enteredText);
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(taskProvider);
     return FractionallySizedBox(
       heightFactor: 1,
       child: Scaffold(
@@ -115,11 +117,13 @@ class _TaskState extends ConsumerState<Task> {
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
+                    saveTask();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (ctx) => DayScreen(
-                            enteredText: textFieldController.text,
-                            selectedTime2: selectedTime),
+                          enteredText: textFieldController.text,
+                          selectedTime2: selectedTime,
+                        ),
                       ),
                     );
                   },

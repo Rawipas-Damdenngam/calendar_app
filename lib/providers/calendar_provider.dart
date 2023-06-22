@@ -7,7 +7,9 @@ class Calendars {
 
 class CalendarsNotifier extends StateNotifier<Calendars> {
   CalendarsNotifier() : super(Calendars(date: DateTime.now()));
-
+void lineMove(){
+  
+}
   
 }
 

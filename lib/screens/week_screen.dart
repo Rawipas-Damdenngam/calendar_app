@@ -1,3 +1,4 @@
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:calendar_app/widgets/week.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -19,6 +20,7 @@ class WeekDayScreen extends ConsumerStatefulWidget {
 
 class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
   CalendarFormat calendarFormat = CalendarFormat.month;
+  DateTime currentDay = DateTime.now();
   DateTime todays =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
@@ -37,6 +39,8 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int dayNumber = currentDay.weekday == 7 ? 0 : currentDay.weekday;
+
     return Stack(
       children: [
         Scaffold(
@@ -162,26 +166,7 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(width: 6),
-                    // CircleAvatar(
-                    //   backgroundColor: Colors.blue,
-                    //   radius: 18,
-                    //   child: Text(
-                    //     dateFormat.format(todays),
-                    //     style: const TextStyle(
-                    //       color: Colors.white,
-                    //       fontWeight: FontWeight.w600,
-                    //       fontSize: 20,
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(width: 30),
-                    // Text(
-                    //   dateFormat2.format(todays),
-                    //   style: const TextStyle(
-                    //     fontSize: 13,
-                    //     color: Colors.blueAccent,
-                    //   ),
-                    // ),
                     const SizedBox(width: 20),
                     for (int i = 0; i < 7; i++)
                       Expanded(
@@ -196,9 +181,8 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                                 ),
                               ),
                               style: TextStyle(
-                                color: todays.weekday == (i - 1) % 7
-                                    ? Colors.blue
-                                    : Colors.black,
+                                color:
+                                    dayNumber == i ? Colors.blue : Colors.black,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20,
                               ),
@@ -214,7 +198,7 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                               )[0],
                               style: TextStyle(
                                 fontSize: 13,
-                                color: todays.weekday == (i - 1) % 7
+                                color: dayNumber == i
                                     ? Colors.blueAccent
                                     : Colors.grey,
                               ),
@@ -225,8 +209,11 @@ class _WeekDayScreenState extends ConsumerState<WeekDayScreen> {
                   ],
                 ),
               ),
-              const Expanded(
-                child: WeekDayWidget(),
+              Expanded(
+                child: WeekDayWidget(
+                  enteredText: ref.read(taskProvider).title,
+                  selectedTime2: ref.read(taskProvider).date,
+                ),
               ),
             ],
           ),

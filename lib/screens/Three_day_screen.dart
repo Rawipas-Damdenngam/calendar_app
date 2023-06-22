@@ -1,4 +1,4 @@
-import 'package:calendar_app/widgets/Three_day.dart';
+import 'package:calendar_app/widgets/three_day.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +8,15 @@ import 'package:calendar_app/screens/search_screen.dart';
 import 'package:calendar_app/screens/profile_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calendar_app/providers/account_provider.dart';
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:calendar_app/widgets/calendar.dart';
+import 'package:calendar_app/screens/task_screen.dart';
 
 class ThreeDayScreen extends ConsumerStatefulWidget {
-  const ThreeDayScreen({super.key});
+  final String enteredText;
+  final DateTime selectedTime2;
+  const ThreeDayScreen(
+      {super.key, required this.enteredText, required this.selectedTime2});
 
   @override
   ConsumerState<ThreeDayScreen> createState() => _ThreeDayScreenState();
@@ -155,7 +160,7 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
           body: Column(
             children: [
               AppBar(
-                toolbarHeight: 68,
+                toolbarHeight: 85,
                 centerTitle: false,
                 leading: null,
                 leadingWidth: 0,
@@ -163,7 +168,7 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
                 title: Stack(
                   children: [
                     SizedBox(
-                      height: 68,
+                      height: 85,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,8 +224,86 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      left: 105,
+                      top: 62,
+                      left: 67,
+                      child: SizedBox(
+                        width: 100,
+                        child: Visibility(
+                          visible: ref.watch(taskProvider).title.isNotEmpty,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: ((context) => TaskScreen(
+                                        enteredText: widget.enteredText,
+                                        selectedTime2: widget.selectedTime2,
+                                      )),
+                                ),
+                              );
+                            },
+                            child: Expanded(
+                              child: Container(
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[600],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: ref.read(taskProvider).isDone
+                                          ? Container(
+                                              decoration: BoxDecoration(
+                                              color: Colors.blue[600],
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ))
+                                          : const SizedBox.shrink(),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.check_circle_outline,
+                                            size: 15,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              ref
+                                                      .read(taskProvider)
+                                                      .title
+                                                      .isNotEmpty
+                                                  ? ref.read(taskProvider).title
+                                                  : 'Nothing Planned',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                                decoration: ref
+                                                        .read(taskProvider)
+                                                        .isDone
+                                                    ? TextDecoration.lineThrough
+                                                    : TextDecoration.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      left: 100,
                       child: Text(
                         dateFormat2.format(selectedDay).toUpperCase(),
                         style: const TextStyle(
@@ -228,8 +311,8 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      left: 221,
+                      top: 5,
+                      left: 215,
                       child: Text(
                         dateFormat2.format(tomorrow).toUpperCase(),
                         style:
@@ -237,8 +320,8 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      left: 341,
+                      top: 5,
+                      left: 342,
                       child: Text(
                         dateFormat2.format(dayAfterTomorrow).toUpperCase(),
                         style:
@@ -248,8 +331,11 @@ class _ThreeDayScreenState extends ConsumerState<ThreeDayScreen> {
                   ],
                 ),
               ),
-              const Expanded(
-                child: ThreeDayWidget(),
+              Expanded(
+                child: ThreeDayWidget(
+                  enteredText: widget.enteredText,
+                  selectedTime2: widget.selectedTime2,
+                ),
               )
             ],
           ),

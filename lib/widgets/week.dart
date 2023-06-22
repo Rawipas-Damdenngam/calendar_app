@@ -1,43 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:calendar_app/providers/task_provider.dart';
+import 'package:calendar_app/screens/task_screen.dart';
 
-class WeekDayWidget extends StatefulWidget {
-  const WeekDayWidget({super.key});
+class WeekDayWidget extends ConsumerStatefulWidget {
+  final String enteredText;
+  final DateTime selectedTime2;
+  const WeekDayWidget(
+      {super.key, required this.enteredText, required this.selectedTime2});
 
   @override
-  State<WeekDayWidget> createState() => _WeekDayWidgetState();
+  ConsumerState<WeekDayWidget> createState() => _WeekDayWidgetState();
 }
 
-class _WeekDayWidgetState extends State<WeekDayWidget> {
+class _WeekDayWidgetState extends ConsumerState<WeekDayWidget> {
   DateTime time = DateTime.now();
+  int currentHour = DateTime.now().hour;
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(taskProvider);
     return Scaffold(
       body: Stack(
         children: [
           ListView.builder(
             itemCount: 23,
             itemBuilder: (context, index) {
+              int day = DateTime.now().day;
               int hour = index + 1;
               String hourString = hour.toString().padLeft(2, '0');
 
-              return ListTile(
-                title: Row(
+              return Expanded(
+                child: Stack(
                   children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('$hourString:00'),
+                    SizedBox(
+                      height: 80,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {},
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text('$hourString:00'),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                indent: 8,
+                                thickness: 1,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: Divider(
-                        indent: 8,
-                        thickness: 1,
-                        color: Colors.grey[400],
+                    if (hour == widget.selectedTime2.hour &&
+                        widget.enteredText != '')
+                      Positioned(
+                        left: 12.3 * day.toDouble(),
+                        top: 45,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => TaskScreen(
+                                  enteredText: widget.enteredText,
+                                  selectedTime2: widget.selectedTime2,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.blue[600],
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4.0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Icon(
+                                      Icons.check_circle_outline,
+                                      size: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    widget.enteredText,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: ref.read(taskProvider).isDone
+                                          ? TextDecoration.lineThrough
+                                          : null,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
                   ],
                 ),
               );

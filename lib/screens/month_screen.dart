@@ -1,3 +1,4 @@
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:calendar_app/widgets/month.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -30,6 +31,7 @@ class _MonthScreenState extends ConsumerState<MonthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(taskProvider);
     return Scaffold(
       drawer: const CalendarDrawer(),
       appBar: AppBar(
@@ -129,7 +131,7 @@ class _MonthScreenState extends ConsumerState<MonthScreen> {
           const SizedBox(width: 35),
         ],
       ),
-      body: const MonthWidget(),
+      body:  MonthWidget(enteredText: ref.read(taskProvider).title,),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(

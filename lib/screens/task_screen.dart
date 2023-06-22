@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:calendar_app/providers/task_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:calendar_app/widgets/task.dart';
 
-class TaskScreen extends StatefulWidget {
+class TaskScreen extends ConsumerStatefulWidget {
   final String enteredText;
-  final DateTime time;
+  final DateTime selectedTime2;
 
-  const TaskScreen({super.key, required this.enteredText, required this.time});
+  const TaskScreen(
+      {super.key, required this.enteredText, required this.selectedTime2});
 
   @override
-  State<TaskScreen> createState() => _TaskScreenState();
+  ConsumerState<TaskScreen> createState() => _TaskScreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen> {
+class _TaskScreenState extends ConsumerState<TaskScreen> {
   final DateFormat timeFormat = DateFormat('EEEE, d MMM HH:mm');
 
-  bool isMarked = false;
   void _onclickMark() {
     setState(() {
-      isMarked = !isMarked;
+      ref.read(taskProvider.notifier).isDone();
       Navigator.pop(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(taskProvider);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -42,7 +47,12 @@ class _TaskScreenState extends State<TaskScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 50.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => Task(
+                          enteredText: ref.read(taskProvider).title,
+                        )));
+              },
               child: const Icon(
                 Icons.mode_edit_outline_outlined,
                 color: Colors.black,
@@ -69,7 +79,7 @@ class _TaskScreenState extends State<TaskScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 60.0,
+                  left: 70.0,
                 ),
                 child: Text(
                   'My work',
@@ -107,14 +117,17 @@ class _TaskScreenState extends State<TaskScreen> {
                     children: [
                       TextSpan(
                         text: '${widget.enteredText}\n',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 30,
                           color: Colors.black,
+                          decoration: ref.read(taskProvider).isDone
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
                         ),
                       ),
                       TextSpan(
-                        text:
-                            DateFormat('EEEE, d MMM HH:mm').format(widget.time),
+                        text: DateFormat('EEEE, d MMM HH:mm')
+                            .format(widget.selectedTime2),
                         style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -152,9 +165,12 @@ class _TaskScreenState extends State<TaskScreen> {
             _onclickMark();
           },
           child: Text(
-            isMarked ? 'Mark incomplete' : 'Mark complete',
+            ref.watch(taskProvider).isDone
+                ? 'Mark incomplete'
+                : 'Mark complete',
             style: TextStyle(
               color: Colors.blue[800],
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

@@ -1,18 +1,20 @@
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:calendar_app/screens/month_screen.dart';
 import 'package:calendar_app/screens/three_day_screen.dart';
 import 'package:calendar_app/screens/home_screen.dart';
 import 'package:calendar_app/screens/week_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_app/screens/day_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CalendarDrawer extends StatefulWidget {
+class CalendarDrawer extends ConsumerStatefulWidget {
   const CalendarDrawer({super.key});
 
   @override
-  State<CalendarDrawer> createState() => _CalendarDrawerState();
+  ConsumerState<CalendarDrawer> createState() => _CalendarDrawerState();
 }
 
-class _CalendarDrawerState extends State<CalendarDrawer> {
+class _CalendarDrawerState extends ConsumerState<CalendarDrawer> {
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
@@ -59,8 +61,7 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    // int visibleCount = showMore ? checkboxList.length : 5;
-    DateTime selectedTime2 = DateTime.now();
+    ref.watch(taskProvider);
 
     return Drawer(
       backgroundColor: Colors.white,
@@ -129,8 +130,8 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => DayScreen(
-                      enteredText: '',
-                      selectedTime2: selectedTime2,
+                      enteredText: ref.read(taskProvider).title,
+                      selectedTime2: ref.read(taskProvider).date,
                     ),
                   ),
                 );
@@ -149,7 +150,10 @@ class _CalendarDrawerState extends State<CalendarDrawer> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => const ThreeDayScreen(),
+                    builder: (ctx) => ThreeDayScreen(
+                      enteredText: ref.watch(taskProvider).title,
+                      selectedTime2: ref.watch(taskProvider).date,
+                    ),
                   ),
                 );
               },

@@ -57,13 +57,16 @@ class _CalendarMonthState extends ConsumerState<CalendarMonth> {
                 ],
               ),
               for (String range in weekChunks)
-                ListTile(
-                  title: Text(
-                    '${DateFormat('MMMM').format(firstDayOfMonth)} $range',
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: ListTile(
+                    title: Text(
+                      '${DateFormat('MMMM').format(firstDayOfMonth)} $range',
+                    ),
+                    onTap: () {
+                      // Do something when a chunk of weeks is tapped
+                    },
                   ),
-                  onTap: () {
-                    // Do something when a chunk of weeks is tapped
-                  },
                 ),
             ],
           );

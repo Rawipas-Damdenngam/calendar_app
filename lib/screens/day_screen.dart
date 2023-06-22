@@ -1,3 +1,4 @@
+import 'package:calendar_app/providers/task_provider.dart';
 import 'package:calendar_app/widgets/day.dart';
 import 'package:calendar_app/widgets/floating_button.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:calendar_app/widgets/calendar_drawer.dart';
 import 'package:calendar_app/screens/search_screen.dart';
 import 'package:calendar_app/screens/profile_screen.dart';
+import 'package:calendar_app/screens/task_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calendar_app/providers/account_provider.dart';
 import 'package:calendar_app/widgets/calendar.dart';
@@ -26,6 +28,7 @@ class _DayScreenState extends ConsumerState<DayScreen> {
   DateFormat dateFormat = DateFormat('dd');
   DateFormat dateFormat2 = DateFormat('EEE');
   String? enteredText;
+  DateTime? selectedTime2;
 
   double appBarHeight = kToolbarHeight;
   bool isExpanded = false;
@@ -41,6 +44,7 @@ class _DayScreenState extends ConsumerState<DayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(taskProvider);
     return Stack(
       children: [
         Scaffold(
@@ -187,26 +191,83 @@ class _DayScreenState extends ConsumerState<DayScreen> {
                             height: 70,
                             color: Colors.grey[400],
                           ),
-                          const SizedBox(width: 20),
+                          const SizedBox(width: 7),
                           Expanded(
                             child: Visibility(
                               visible: widget.enteredText.isNotEmpty,
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.blue[600],
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Text(
-                                  widget.enteredText.isNotEmpty
-                                      ? widget.enteredText
-                                      : 'Nothing Planned',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: ((context) => TaskScreen(
+                                          enteredText:
+                                              ref.read(taskProvider).title,
+                                          selectedTime2:
+                                              ref.read(taskProvider).date)),
+                                    ),
+                                  );
+                                },
+                                child: Expanded(
+                                  child: Container(
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue[600],
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: ref.read(taskProvider).isDone
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                  color: Colors.blue[600],
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ))
+                                              : const SizedBox.shrink(),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
+                                                child: Icon(
+                                                    size: 20,
+                                                    Icons.check_circle_outline),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  ref
+                                                          .read(taskProvider)
+                                                          .title
+                                                          .isNotEmpty
+                                                      ? ref
+                                                          .read(taskProvider)
+                                                          .title
+                                                      : 'Nothing Planned',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                    decoration: ref
+                                                            .read(taskProvider)
+                                                            .isDone
+                                                        ? TextDecoration
+                                                            .lineThrough
+                                                        : null,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
